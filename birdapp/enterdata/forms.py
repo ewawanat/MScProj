@@ -9,4 +9,4 @@ class EnterData(forms.ModelForm):
     date_seen = forms.DateField(widget = DateInput)
     class Meta:
         model = models.Sighting
-        fields = ['species_name', 'location', 'date_seen', 'photo']
+        fields = ['species_name', 'country', 'county', 'date_seen', 'photo']

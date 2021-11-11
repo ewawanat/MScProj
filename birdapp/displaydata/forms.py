@@ -9,5 +9,5 @@ class DisplayData(forms.ModelForm):
     to_date = forms.DateField(widget= DateInput)
     class Meta:
         model = models.DisplayForm
-        fields = ['species_name', 'location', 'from_date', 'to_date']
+        fields = ['species_name', 'country', 'county', 'from_date', 'to_date']
 

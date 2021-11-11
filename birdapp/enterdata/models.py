@@ -2,19 +2,28 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE, PROTECT
 
-class Geography(models.Model):
-    country = models.CharField(max_length=50)
-    county = models.CharField(max_length=50)
-    postcode = models.CharField(max_length=50, blank = True)
+class County(models.Model):
+    name = models.CharField(max_length=50)
+#   postcode = models.CharField(max_length=50, blank = True)
+    
+    class Meta: 
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+            
+class Country(models.Model):
+    name = models.CharField(max_length=50)
+    county = models.ForeignKey(County, on_delete = PROTECT, default='All')
 
     class Meta: 
-        ordering = ['county']
+        ordering = ['name']
 
     def __str__(self): 
-        return self.county + ", " + self.country  #function to return the county
+        return self.name  #function to return the county
 
 class Species(models.Model):
-    name = models.CharField(max_length=30, default= 'Choose the bird here')
+    name = models.CharField(max_length=30, default= '')
     
     class Meta: 
         ordering = ['name']
@@ -26,7 +35,9 @@ class Sighting(models.Model):
     species_name = models.ForeignKey(Species, on_delete=PROTECT)
     date_seen = models.DateField(blank = True)
     photo = models.ImageField(default ='default.png', blank = True)
-    location = models.ForeignKey(Geography, on_delete = PROTECT)
+    country = models.ForeignKey(Country, on_delete = PROTECT, default='All')
+    county = models.ForeignKey(County, on_delete = PROTECT, default='All')
+
     # sound_file = models.FileField(upload_to=/'sounds/')
     # class Meta:
     # db_table='Audio_store'
